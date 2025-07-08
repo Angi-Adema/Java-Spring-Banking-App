@@ -26,7 +26,10 @@ public class Account {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<Transaction> transactions;
+    @OneToMany(mappedBy = "sourceAccount", cascade = CascadeType.ALL)
+    private List<Transaction> outgoingTransactions;
+
+    @OneToMany(mappedBy = "destinationAccount", cascade = CascadeType.ALL)
+    private List<Transaction> incomingTransactions;
 
 }

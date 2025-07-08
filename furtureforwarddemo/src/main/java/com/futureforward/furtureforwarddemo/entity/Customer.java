@@ -17,7 +17,10 @@ public class Customer {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String first_name;
+
+    @Column(nullable = false)
+    private String last_name;
 
     @Column(unique = true, nullable = false)
     private String email;
