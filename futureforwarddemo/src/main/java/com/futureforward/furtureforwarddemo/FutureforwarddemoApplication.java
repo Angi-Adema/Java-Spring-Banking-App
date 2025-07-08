@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FurtureforwarddemoApplication {
+public class FutureforwarddemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FurtureforwarddemoApplication.class, args);
+		SpringApplication.run(FutureforwarddemoApplication.class, args);
 	}
 
 }

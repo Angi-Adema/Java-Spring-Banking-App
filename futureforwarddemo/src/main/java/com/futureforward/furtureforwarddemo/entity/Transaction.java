@@ -16,7 +16,9 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type; // e.g., "DEPOSIT", "WITHDRAWAL"
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TransactionType type; // e.g., "DEPOSIT", "WITHDRAWAL"
 
     @Column(nullable = false)
     private double amount;
