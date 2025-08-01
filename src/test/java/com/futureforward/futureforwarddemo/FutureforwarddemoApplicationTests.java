@@ -1,10 +1,10 @@
-package com.futureforward.furtureforwarddemo;
+package com.futureforward.futureforwarddemo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FurtureforwarddemoApplicationTests {
+class FutureforwarddemoApplicationTests {
 
 	@Test
 	void contextLoads() {
