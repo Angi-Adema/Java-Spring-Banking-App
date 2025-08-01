@@ -1,4 +1,4 @@
-package com.futureforward.furtureforwarddemo.entity;
+package com.futureforward.futureforwarddemo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

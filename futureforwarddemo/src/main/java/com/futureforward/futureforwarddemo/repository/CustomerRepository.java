@@ -1,4 +1,4 @@
-package com.futureforward.furtureforwarddemo.repository;
+package com.futureforward.futureforwarddemo.repository;
 
 import com.futureforward.futureforwarddemo.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;

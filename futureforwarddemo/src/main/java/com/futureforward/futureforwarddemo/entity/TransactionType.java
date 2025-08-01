@@ -1,4 +1,4 @@
-package com.futureforward.furtureforwarddemo.entity;
+package com.futureforward.futureforwarddemo.entity;
 
 public enum TransactionType {
     DEPOSIT,
