@@ -17,10 +17,10 @@ public class Customer {
     private Long id;
 
     @Column(nullable = false)
-    private String first_name;
+    private String firstName;
 
     @Column(nullable = false)
-    private String last_name;
+    private String lastName;
 
     @Column(unique = true, nullable = false)
     private String email;
