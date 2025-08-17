@@ -28,7 +28,7 @@ public class BankingIntegrationTest {
     @Test
     void testAccountCreationAndTransfer() {
         // Create customer
-        Customer alice = new Customer(null, "Alice", "Smith", "alice@example.com", "password", "USER", null);
+        Customer alice = new Customer(null, "Alice", "Smith", "alice@example.com", "password", null);
         alice = customerService.registerCustomer(alice);
 
         // Create 2 accounts
