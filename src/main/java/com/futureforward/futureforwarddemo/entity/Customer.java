@@ -25,7 +25,8 @@ public class Customer {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    // TODO: MAKE THE NULLABLE FALSE AFTER CONFIRMING ALL ROUTES WORK.
+    @Column(nullable = true)
     private String password;
 
     // @Column(nullable = false)

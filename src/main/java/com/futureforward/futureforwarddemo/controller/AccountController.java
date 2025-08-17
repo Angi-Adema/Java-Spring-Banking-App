@@ -2,7 +2,6 @@ package com.futureforward.futureforwarddemo.controller;
 
 import com.futureforward.futureforwarddemo.dto.AccountResponse;
 import com.futureforward.futureforwarddemo.dto.CreateAccountRequest;
-import com.futureforward.futureforwarddemo.entity.Account;
 import com.futureforward.futureforwarddemo.entity.Customer;
 import com.futureforward.futureforwarddemo.service.AccountService;
 import com.futureforward.futureforwarddemo.service.CustomerService;
@@ -28,7 +27,7 @@ public class AccountController {
     // CREATE account with DTO (Endpoint: POST /api/accounts)
     @PostMapping
     public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody CreateAccountRequest request) {
-        Optional<Customer> customerOpt = customerService.findById(request.getCustomerId());
+        Optional<Customer> customerOpt = customerService.findEntityById(request.getCustomerId());
         if (customerOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -56,10 +55,8 @@ public class AccountController {
 
     // UPDATE account (Endpoint: PUT /api/accounts/{id})
     @PutMapping("/{id}")
-    public ResponseEntity<AccountResponse> updateAccount(@Valid 
-                                                         @PathVariable Long id,
-                                                         @RequestBody CreateAccountRequest request) {
-        Optional<Customer> customerOpt = customerService.findById(request.getCustomerId());
+    public ResponseEntity<AccountResponse> updateAccount(@Valid @PathVariable Long id, @RequestBody CreateAccountRequest request) {
+        Optional<Customer> customerOpt = customerService.findEntityById(request.getCustomerId());
         if (customerOpt.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
