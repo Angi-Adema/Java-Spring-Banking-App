@@ -28,42 +28,42 @@ public class TransactionController {
     // POST /api/transactions/deposit
     @PostMapping("/deposit")
     public ResponseEntity<TransactionResponse> deposit(@Valid @RequestBody DepositRequest request) {
-        Account account = accountService.getAccountById(request.getAccountId()).orElse(null);
-        if (account == null) return ResponseEntity.notFound().build();
+        var accountOpt = accountService.getAccountById(request.getAccountId());
+        if (accountOpt.isEmpty()) return ResponseEntity.notFound().build();
 
-        transactionService.deposit(account, request.getAmount());
-
-        // In your current service, deposit returns void; fetch the latest tx list and map last item
-        List<Transaction> txs = transactionService.getAllTransactionsForAccount(account.getId());
-        Transaction last = txs.get(txs.size() - 1);
-        return ResponseEntity.ok(mapToResponse(last));
+        try {
+            var tx = transactionService.deposit(accountOpt.get(), request.getAmount());
+            return ResponseEntity.ok(mapToResponse(tx));
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     // POST /api/transactions/transfer
     @PostMapping("/transfer")
     public ResponseEntity<TransactionResponse> transfer(@Valid @RequestBody TransferRequest request) {
-        Account from = accountService.getAccountById(request.getFromAccountId()).orElse(null);
-        Account to   = accountService.getAccountById(request.getToAccountId()).orElse(null);
-        if (from == null || to == null) return ResponseEntity.notFound().build();
+        var fromOpt = accountService.getAccountById(request.getFromAccountId());
+        var toOpt   = accountService.getAccountById(request.getToAccountId());
+        if (fromOpt.isEmpty() || toOpt.isEmpty()) return ResponseEntity.notFound().build();
 
-        boolean ok = transactionService.transfer(from, to, request.getAmount());
-        if (!ok) return ResponseEntity.badRequest().build(); // insufficient funds, etc.
-
-        List<Transaction> txs = transactionService.getAllTransactionsForAccount(from.getId());
-        Transaction last = txs.get(txs.size() - 1);
-        return ResponseEntity.ok(mapToResponse(last));
+        try {
+            var tx = transactionService.transfer(fromOpt.get(), toOpt.get(), request.getAmount());
+            return ResponseEntity.ok(mapToResponse(tx));
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     // GET /api/transactions/account/{accountId}
     @GetMapping("/account/{accountId}")
     public ResponseEntity<List<TransactionResponse>> listForAccount(@PathVariable Long accountId) {
-        List<Transaction> list = transactionService.getAllTransactionsForAccount(accountId);
-        if (list == null || list.isEmpty()) return ResponseEntity.ok(List.of());
-        return ResponseEntity.ok(list.stream().map(this::mapToResponse).collect(Collectors.toList()));
+        var list = transactionService.getAllTransactionsForAccount(accountId);
+        var out = list.stream().map(this::mapToResponse).collect(Collectors.toList());
+        return ResponseEntity.ok(out);
     }
 
     private TransactionResponse mapToResponse(Transaction t) {
-        TransactionResponse r = new TransactionResponse();
+        var r = new TransactionResponse();
         r.setId(t.getId());
         r.setType(t.getType().name());
         r.setAmount(t.getAmount());
