@@ -3,7 +3,6 @@ package com.futureforward.futureforwarddemo.controller;
 import com.futureforward.futureforwarddemo.dto.DepositRequest;
 import com.futureforward.futureforwarddemo.dto.TransactionResponse;
 import com.futureforward.futureforwarddemo.dto.TransferRequest;
-import com.futureforward.futureforwarddemo.entity.Account;
 import com.futureforward.futureforwarddemo.entity.Transaction;
 import com.futureforward.futureforwarddemo.service.AccountService;
 import com.futureforward.futureforwarddemo.service.TransactionService;
