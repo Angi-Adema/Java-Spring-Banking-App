@@ -7,6 +7,7 @@ import com.futureforward.futureforwarddemo.repository.AccountRepository;
 import com.futureforward.futureforwarddemo.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,22 +21,36 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public void deposit(Account account, double amount) {
+    @Transactional
+    public Transaction deposit(Account account, double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0.");
+        }
+
         account.setBalance(account.getBalance() + amount);
         accountRepository.save(account);
 
-        Transaction transaction = new Transaction();
-        transaction.setType(TransactionType.DEPOSIT);
-        transaction.setAmount(amount);
-        transaction.setTimestamp(LocalDateTime.now());
-        transaction.setDestinationAccount(account);
+        Transaction tx = new Transaction();
+        tx.setType(TransactionType.DEPOSIT);
+        tx.setAmount(amount);
+        tx.setTimestamp(LocalDateTime.now());
+        tx.setDestinationAccount(account);
 
-        transactionRepository.save(transaction);
+        return transactionRepository.save(tx);
     }
 
-    public boolean transfer(Account from, Account to, double amount) {
+    @Transactional
+    public Transaction transfer(Account from, Account to, double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0.");
+        }
+
+        if (from.getId().equals(to.getId())) {
+            throw new IllegalArgumentException("Cannot transfer to the same account.");
+        }
+
         if (from.getBalance() < amount) {
-            return false; // insufficient funds
+            throw new IllegalArgumentException("Insufficient funds.");
         }
 
         from.setBalance(from.getBalance() - amount);
@@ -44,15 +59,14 @@ public class TransactionService {
         accountRepository.save(from);
         accountRepository.save(to);
 
-        Transaction transaction = new Transaction();
-        transaction.setType(TransactionType.TRANSFER);
-        transaction.setAmount(amount);
-        transaction.setTimestamp(LocalDateTime.now());
-        transaction.setSourceAccount(from);
-        transaction.setDestinationAccount(to);
+        Transaction tx = new Transaction();
+        tx.setType(TransactionType.TRANSFER);
+        tx.setAmount(amount);
+        tx.setTimestamp(LocalDateTime.now());
+        tx.setSourceAccount(from);
+        tx.setDestinationAccount(to);
 
-        transactionRepository.save(transaction);
-        return true;
+        return transactionRepository.save(tx);
     }
 
     public List<Transaction> getAllTransactionsForAccount(Long accountId) {
