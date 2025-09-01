@@ -1,3 +1,5 @@
+// Created according to the entity design, to create a new customer we must have their first name, last name, email and password. True banking systems may require
+// actual ID number to verify the identity of the customer, etc.
 package com.futureforward.futureforwarddemo.dto;
 
 import jakarta.validation.constraints.Email;
