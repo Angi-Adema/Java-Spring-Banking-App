@@ -1,3 +1,4 @@
+// Rules set forth in the design no longer live in the controller, they are now in the DTO. (password length, email format, etc.)
 // DTOs protect sensitive information by creating a template of what is to be returned to the client. Otherwise we risk everything in the entity being exposed.
 package com.futureforward.futureforwarddemo.dto;
 
