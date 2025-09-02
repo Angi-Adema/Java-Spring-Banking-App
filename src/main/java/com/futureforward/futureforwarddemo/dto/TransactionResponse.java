@@ -10,6 +10,7 @@ public class TransactionResponse {
     private Long sourceAccountId;
     private Long destinationAccountId;
 
+    // Getters/Setters keeps the object safe and we can also add rules here such as amount > 0.
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getType() { return type; }
